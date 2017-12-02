@@ -54,7 +54,6 @@ function addButton() {
 
 }
 
-<<<<<<< HEAD
 //main ajax call function
 
 function call() {
@@ -90,40 +89,6 @@ function call() {
 
             }
         })
-=======
-//make this into a function then call below----------//
-
-function bitchfuck(){
-var x = $(this).attr("data-animal");
-var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + x + "&api_key=dc6zaTOxFJmzC&limit=10";
-console.log(queryURL);
-
-$.ajax({ url: queryURL, method: 'GET' })
-    .done(function(response) {
-
-        console.log(response.data);
-        for (var i = 0; i < response.data.length; i++) {
-
-            var newdiv = $("<div>");
-            var newimg = $("<img>");
-            var rating = $("<p>");
-
-            rating.text("Rating:" + response.data[i].rating);
-            newimg.attr("src" , response.data[i].images.downsized_still.url);
-            newimg.addClass("move");
-            newimg.attr("animate", response.data[i].images.downsized.url);
-            newimg.attr("data-state", "still");
-            newimg.attr("still", response.data[i].images.downsized_still.url);
-            newimg.click(change);
-            newdiv.append(rating);
-            newdiv.append(newimg);
-
-            $(".gifs").prepend(newdiv);
-
-
-        }
-    })
->>>>>>> 3b6692e373807eff2b8a4de69e9b98ddcd74a8cd
 }
 
 //main logic
@@ -136,57 +101,5 @@ $(window).on("load", function() {
             addButton();
         })
 
-<<<<<<< HEAD
     $(document).on("click", ".topic", call);
 });
-=======
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // $('.gifs').prepend("<p>Rating:" + response.data[i].rating + "</p>");
-            // $('.gifs').prepend("<img src='" + response.data[i].images.downsized_still.url + "'>");
-
-            // // var btn = $("<button>").text(input);
-            // btn.attr("data-animal", input).addClass('btn btn-primary');
-            // $(".btn-box").append(btn);
-            // $(".btn-box").click(function() {
-            //     var x = input;
-            //     var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + x + "&api_key=dc6zaTOxFJmzC&limit=10";
-            //     console.log(queryURL);
-
-            //     $.ajax({ url: queryURL, method: 'GET' })
-            //         .done(function(response) {
-
-            //             console.log(response.data);
-
-            //             for (var i = 0; i < response.data.length; i++) {
-            //                 $('.gifs').prepend("<p>Rating:" + response.data[i].rating + "</p>");
-            //                 $('.gifs').prepend("<img src='" + response.data[i].images.downsized_still.url + "'>");
-            //                 $("img").addClass("move");
-            //                 $("img").attr("animate", response.data[i].images.downsized.url);
-            //                 $("img").attr("data-state", "still");
-            //                 $("img").attr("still", response.data[i].images.downsized_still.url);
-            //                 $("img").click(change);
-
-            //             }
-            // //----------------//
-            //        $(document).on("click", ".move", change);
-
-            //         })
->>>>>>> 3b6692e373807eff2b8a4de69e9b98ddcd74a8cd
