@@ -21,11 +21,11 @@
 
 
 //global variable
-var animals = ["dog", "cat", "fish"];
+var jungleBook = ["Shere Khan", "Baloo", "kaa"];
 
 //global function for animate
 var change = function() {
-   
+
     if ($(this).attr("data-state") === "still") {
         $(this).attr("src", $(this).attr("animate"));
         $(this).attr("data-state", "animate");
@@ -38,9 +38,9 @@ var change = function() {
 //global function for dynamically creating buttons 
 var makeBtn = function() {
     $(".btn-box").empty();
-    for (var i = 0; i < animals.length; i++) {
-        var btn = $("<button>").text(animals[i]);
-        btn.attr("data-animal", animals[i]).addClass('btn btn-primary topic');
+    for (var i = 0; i < jungleBook.length; i++) {
+        var btn = $("<button>").text(jungleBook[i]);
+        btn.attr("data-animal", jungleBook[i]).addClass('btn btn-primary topic');
         $(".btn-box").append(btn);
     }
 };
@@ -49,118 +49,57 @@ var makeBtn = function() {
 function addButton() {
     var input = $('#userInput').val();
     //push the users new input into an array and redisplaying
-    animals.push(input);
+    jungleBook.push(input);
     makeBtn();
 
 }
 
-//make this into a function then call below----------//
+//main ajax call function
 
-function bitchfuck(){
-var x = $(this).attr("data-animal");
-var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + x + "&api_key=dc6zaTOxFJmzC&limit=10";
-console.log(queryURL);
+function call() {
+    var x = $(this).attr("data-animal");
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + x + "&api_key=dc6zaTOxFJmzC&limit=10";
+    console.log(queryURL);
+    //ajax request
+    $.ajax({ url: queryURL, method: 'GET' })
+        .done(function(response) {
 
-$.ajax({ url: queryURL, method: 'GET' })
-    .done(function(response) {
+            // console.log(response.data);
+            //loop for query request and  data access
+            for (var i = 0; i < response.data.length; i++) {
 
-        console.log(response.data);
-        for (var i = 0; i < response.data.length; i++) {
+                //variables for creating new html tags
+                var newdiv = $("<div>");
+                var newimg = $("<img>");
+                var rating = $("<p>");
 
-            var newdiv = $("<div>");
-            var newimg = $("<img>");
-            var rating = $("<p>");
+                //appending and adding attributes to our new html tags
+                rating.text("Rating:" + response.data[i].rating);
+                newimg.attr("src", response.data[i].images.downsized_still.url);
+                newimg.addClass("move");
+                newimg.attr("animate", response.data[i].images.downsized.url);
+                newimg.attr("data-state", "still");
+                newimg.attr("still", response.data[i].images.downsized_still.url);
+                newimg.click(change);
+                newdiv.append(rating);
+                newdiv.append(newimg);
 
-            rating.text("Rating:" + response.data[i].rating);
-            newimg.attr("src" , response.data[i].images.downsized_still.url);
-            newimg.addClass("move");
-            newimg.attr("animate", response.data[i].images.downsized.url);
-            newimg.attr("data-state", "still");
-            newimg.attr("still", response.data[i].images.downsized_still.url);
-            newimg.click(change);
-            newdiv.append(rating);
-            newdiv.append(newimg);
+                //prepending to new div
+                $(".gifs").prepend(newdiv);
 
-            $(".gifs").prepend(newdiv);
-
-
-        }
-    })
+            }
+        })
 }
 
 //main logic
 
+
 $(window).on("load", function() {
-            makeBtn();
+    makeBtn();
 
-            $(document).on("click", ".topic", bitchfuck);
+        $("#submit").on("click", function(){
+            addButton();
+        })
+
+    $(document).on("click", ".topic", call);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // $('.gifs').prepend("<p>Rating:" + response.data[i].rating + "</p>");
-            // $('.gifs').prepend("<img src='" + response.data[i].images.downsized_still.url + "'>");
-
-            // // var btn = $("<button>").text(input);
-            // btn.attr("data-animal", input).addClass('btn btn-primary');
-            // $(".btn-box").append(btn);
-            // $(".btn-box").click(function() {
-            //     var x = input;
-            //     var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + x + "&api_key=dc6zaTOxFJmzC&limit=10";
-            //     console.log(queryURL);
-
-            //     $.ajax({ url: queryURL, method: 'GET' })
-            //         .done(function(response) {
-
-            //             console.log(response.data);
-
-            //             for (var i = 0; i < response.data.length; i++) {
-            //                 $('.gifs').prepend("<p>Rating:" + response.data[i].rating + "</p>");
-            //                 $('.gifs').prepend("<img src='" + response.data[i].images.downsized_still.url + "'>");
-            //                 $("img").addClass("move");
-            //                 $("img").attr("animate", response.data[i].images.downsized.url);
-            //                 $("img").attr("data-state", "still");
-            //                 $("img").attr("still", response.data[i].images.downsized_still.url);
-            //                 $("img").click(change);
-
-            //             }
-            // //----------------//
-            //        $(document).on("click", ".move", change);
-
-            //         })
